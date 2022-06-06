@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useUser } from "../../../context/UserContext";
+import React, { useState } from "react";
 import { useSnackbar } from "notistack";
 import { useProducts } from "../../../context/ProductContext";
 import ProductManager from "../../../components/ProductManager";
@@ -205,7 +204,7 @@ const MaestroProductos = () => {
         </div>
         <button
           type="submit"
-          className="text-white dark:bg-gray-800 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center"
+          className="text-white bg-gray-700 dark:bg-gray-800 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center"
         >
           Save image
         </button>

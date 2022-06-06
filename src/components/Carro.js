@@ -5,10 +5,12 @@ import { useCart } from "../context/CartContext";
 import Routes from "../Routes";
 import Main from "./Main";
 import Basket from "./Basket";
+
 function Carro() {
 
   const { cartItems, setCartItems } = useCart();
   const { products } = useProducts();
+
 
   const onAdd = (product) => {
     const exist = cartItems.find((x) => x.id === product.id);

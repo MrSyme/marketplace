@@ -37,17 +37,18 @@ const Header = ({ countCartItems }) => {
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
         <div className="flex items-center cursor-pointer">
-          <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+          <span 
+              onClick={() => {navigate("/")}}
+              className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
             Ecommerce
           </span>
         </div>
         <div className="flex md:order-2">
-          {(user && user.role !== "comprador") ||
-            (!user && (
+          {((user && user.role === "comprador") || !user) && (
               <div className="group mr-3 md:mr-0 px-5 py-2.5 flex items-center cursor-pointer">
                 <div
                   onClick={() => {
-                    navigate("/cart");
+                    (!user) ? navigate("/login") : navigate("/cart");
                   }}
                 >
                   <FaShoppingCart
@@ -60,7 +61,7 @@ const Header = ({ countCartItems }) => {
                   <span className="sr-only">items in cart, view bag</span>
                 </div>
               </div>
-            ))}
+            )}
 
           <button
             data-collapse-toggle="mobile-menu-4"
@@ -100,9 +101,8 @@ const Header = ({ countCartItems }) => {
           </button>
         </div>
         <div
-          className={`${
-            !open ? "hidden" : ""
-          } justify-between items-center w-full md:flex md:w-auto md:order-1`}
+          className={`${!open ? "hidden" : ""
+            } justify-between items-center w-full md:flex md:w-auto md:order-1`}
           id="mobile-menu-4"
         >
           <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
