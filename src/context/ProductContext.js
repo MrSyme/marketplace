@@ -22,6 +22,7 @@ export const useProducts = () => useContext(ProductContext); // Hook to access t
   This are the values that are provided to the consumer.
 */
 export const useProductProvider = () => {
+  const [id, setIds] = useState(4)
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -30,6 +31,8 @@ export const useProductProvider = () => {
       image: image2,
       imageAlt: "XD",
       link: "/products/1",
+      description: "fedora"
+
     },
     {
       id: 2,
@@ -38,6 +41,7 @@ export const useProductProvider = () => {
       image: image1,
       imageAlt: "XD",
       link: "/",
+      description: "Old Parr"
     },
     {
       id: 3,
@@ -46,19 +50,14 @@ export const useProductProvider = () => {
       image: image3,
       imageAlt: "XD",
       link: "/",
-    },
-    {
-      id: 4,
-      name: "Ankh",
-      price: 999,
-      image: image3,
-      imageAlt: "XD",
-      link: "/",
+      description: "Ankh"
     },
   ]);
 
   return {
     products,
     setProducts,
+    id, 
+    setIds,
   };
 };
