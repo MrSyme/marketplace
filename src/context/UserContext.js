@@ -19,8 +19,14 @@ export const useUser = () => useContext(UserContext); // Hook to access the cart
 export const useUserProvider = () => {
   const [user, setUser] = useState();
 
+  const logoutUser = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+  };
+
   return {
     user,
     setUser,
+    logoutUser,
   };
 };

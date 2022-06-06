@@ -7,8 +7,7 @@ const Pagination = ({
   products,
   pagesVisited,
 }) => {
-  const validation = Math.ceil((products.length / productsPerPage)) - 1
-
+  const validation = Math.ceil(products.length / productsPerPage) - 1;
 
   return (
     <div className="flex flex-col items-center">
@@ -50,13 +49,13 @@ const Pagination = ({
           Prev
         </button>
         <button
-          onClick={() => 
+          onClick={() =>
             pageNumber < validation ? setPageNumber(pageNumber + 1) : ""
-            }
+          }
           disabled={pageNumber * productsPerPage >= products.length}
           className="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-gray-800 rounded-r border-0 border-l border-gray-700 hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
         >
-          {pageNumber}
+          Next
           <svg
             className="ml-2 w-5 h-5"
             fill="currentColor"

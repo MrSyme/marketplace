@@ -3,10 +3,8 @@ import { useUser } from "../../../context/UserContext";
 import { useSnackbar } from "notistack";
 import { useProducts } from "../../../context/ProductContext";
 import ProductManager from "../../../components/ProductManager";
-import Pagination from "../../../components/Pagination"
-import MainLayout from "../../../layouts/MainLayout"
-
-
+import Pagination from "../../../components/Pagination";
+import MainLayout from "../../../layouts/MainLayout";
 
 const MaestroProductos = () => {
   const [pageNumber, setPageNumber] = useState(0);
@@ -20,8 +18,6 @@ const MaestroProductos = () => {
     description: "",
   });
 
-
-
   const { enqueueSnackbar } = useSnackbar();
   const { products, setProducts, id, setIds } = useProducts();
 
@@ -30,16 +26,14 @@ const MaestroProductos = () => {
     pagesVisited + productsPerPage
   );
 
-
   const onModify = (product) => {
     setProductForm({
       id: product.id,
       name: product.name,
       price: product.price,
-      description: product.description
-    })
+      description: product.description,
+    });
   };
-
 
   function validarImg(image) {
     let extension = image.value.split(".").pop().toLowerCase();
@@ -47,58 +41,54 @@ const MaestroProductos = () => {
       enqueueSnackbar("La imagen debe ser formato .jpeg o png ", {
         variant: "error",
         autoHideDuration: 3000,
-      })
+      });
       return false;
     }
     return true;
   }
 
-  useEffect(() => { }, [products])
-
-
   const updateProduct = (index, image) => {
-    let arrayProducts = products
+    let arrayProducts = products;
     let newproduct = {
       ...products[index],
       name: productForm.name,
       price: productForm.price,
       imageAlt: productForm.name,
-      description: productForm.description
-    }
+      description: productForm.description,
+    };
     if (image) {
       console.log(image);
-      let fReader = new FileReader()
+      let fReader = new FileReader();
       fReader.readAsDataURL(image);
       fReader.onloadend = function (event) {
         let image = [event.target.result];
         newproduct = {
           ...newproduct,
-          image: image
-        }
-      }
+          image: image,
+        };
+      };
     }
-    arrayProducts[index] = newproduct
+    arrayProducts[index] = newproduct;
     setProducts(arrayProducts);
     console.log(products);
-
-  }
+  };
 
   const onSubmit = (evt) => {
     evt.preventDefault();
-    let fReader = new FileReader()
+    let fReader = new FileReader();
     let img = evt.target.img;
 
     let name = evt.target.name.value;
     let price = evt.target.price.value;
     let description = evt.target.description.value;
 
-    let newProductIndex = products.findIndex((product) => product.id === productForm.id);
+    let newProductIndex = products.findIndex(
+      (product) => product.id === productForm.id
+    );
     if (newProductIndex != -1) {
-      updateProduct(newProductIndex, img.files[0])
-      return
+      updateProduct(newProductIndex, img.files[0]);
+      return;
     }
-
-
 
     if (validarImg(img)) {
       img = evt.target.img.files[0];
@@ -112,18 +102,16 @@ const MaestroProductos = () => {
           image: img,
           imageAlt: name,
           link: `/products/${id}`,
-          description: description
+          description: description,
         };
-        setProducts(oldProducts => [...oldProducts, product]);
+        setProducts((oldProducts) => [...oldProducts, product]);
         setIds(id + 1);
-      }
+      };
     }
-  }
+  };
 
   return (
     <MainLayout>
-
-
       <form className="mt-8 ml-4 space-y-2" onSubmit={onSubmit}>
         <div>
           <label
@@ -139,10 +127,12 @@ const MaestroProductos = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 
           sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
             value={productForm.name}
-            onChange={(evt) => setProductForm({
-              ...productForm,
-              name: evt.target.value
-            })}
+            onChange={(evt) =>
+              setProductForm({
+                ...productForm,
+                name: evt.target.value,
+              })
+            }
             required
           />
         </div>
@@ -164,10 +154,12 @@ const MaestroProductos = () => {
           focus:ring-blue-500 focus:border-blue-500 p-2.5 inline mr-2"
             placeholder="590"
             value={productForm.price}
-            onChange={(evt) => setProductForm({
-              ...productForm,
-              price: evt.target.value
-            })}
+            onChange={(evt) =>
+              setProductForm({
+                ...productForm,
+                price: evt.target.value,
+              })
+            }
             required
           />
         </div>
@@ -185,7 +177,6 @@ const MaestroProductos = () => {
             className="bg-gray-50 border border-gray-300 
           text-gray-900 sm:text-sm rounded-lg 
           focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-
           />
         </div>
         <div>
@@ -203,10 +194,12 @@ const MaestroProductos = () => {
           sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
             placeholder="Product description"
             value={productForm.description}
-            onChange={(evt) => setProductForm({
-              ...productForm,
-              description: evt.target.value
-            })}
+            onChange={(evt) =>
+              setProductForm({
+                ...productForm,
+                description: evt.target.value,
+              })
+            }
             required
           />
         </div>
@@ -216,7 +209,6 @@ const MaestroProductos = () => {
         >
           Save image
         </button>
-
       </form>
       <div>
         <h2>Products:</h2>
@@ -224,19 +216,34 @@ const MaestroProductos = () => {
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th scope="col" className="px-6 py-3">ID</th>
-                <th scope="col" className="px-6 py-3">Name</th>
-                <th scope="col" className="px-6 py-3">Price</th>
-                <th scope="col" className="px-6 py-3">Image</th>
-                <th scope="col" className="px-6 py-3">Description</th>
-                <th scope="col" className="px-6 py-3 text-center">Actions</th>
+                <th scope="col" className="px-6 py-3">
+                  ID
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Price
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Image
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Description
+                </th>
+                <th scope="col" className="px-6 py-3 text-center">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {productsToShow.map((product) => (
-                <ProductManager key={product.id} product={product} onModify={onModify}></ProductManager>
+                <ProductManager
+                  key={product.id}
+                  product={product}
+                  onModify={onModify}
+                ></ProductManager>
               ))}
-
             </tbody>
           </table>
         </div>

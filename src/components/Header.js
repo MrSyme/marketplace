@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 
 /* export default function Header(props){
     const{countCartItems}=props;
@@ -22,8 +23,15 @@ import { useNavigate } from "react-router-dom";
 
 const Header = ({ countCartItems }) => {
   const [open, setOpen] = useState(false);
+  const { logoutUser } = useUser();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   let navigate = useNavigate();
+
+  const handleLogout = () => {
+    logoutUser();
+    navigate("/");
+  };
 
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
@@ -34,19 +42,26 @@ const Header = ({ countCartItems }) => {
           </span>
         </div>
         <div className="flex md:order-2">
-          <div className="group mr-3 md:mr-0 px-5 py-2.5 flex items-center cursor-pointer">
-            <div onClick={() => {
-                  navigate("/cart");}}>
-                <FaShoppingCart
-              className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
-              aria-hidden="true"
-            />
-            <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-              {countCartItems}
-            </span>
-            <span className="sr-only">items in cart, view bag</span>
-          </div></div>
-            
+          {(user && user.role !== "comprador") ||
+            (!user && (
+              <div className="group mr-3 md:mr-0 px-5 py-2.5 flex items-center cursor-pointer">
+                <div
+                  onClick={() => {
+                    navigate("/cart");
+                  }}
+                >
+                  <FaShoppingCart
+                    className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                    {countCartItems}
+                  </span>
+                  <span className="sr-only">items in cart, view bag</span>
+                </div>
+              </div>
+            ))}
+
           <button
             data-collapse-toggle="mobile-menu-4"
             type="button"
@@ -92,33 +107,59 @@ const Header = ({ countCartItems }) => {
         >
           <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
             <li>
-              <div onClick={() => {
-                navigate("/")
-              }}
-                className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-black md:p-0 dark:text-white cursor-pointer md:hover:text-blue-700">
+              <div
+                onClick={() => {
+                  navigate("/");
+                }}
+                className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-black md:p-0 dark:text-white cursor-pointer md:hover:text-blue-700"
+              >
                 Home
               </div>
             </li>
-            <li>
-              <div className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer">
-                Catalog
-              </div>
-            </li>
-            <li>
-              <div
-                onClick={() => {
-                  navigate("/login");
-                }}
-                className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer"
-              >
-                Sign In
-              </div>
-            </li>
-            <li>
-              <div className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer">
-                Sign Up
-              </div>
-            </li>
+            {user ? (
+              <>
+                {user.role !== "comprador" && (
+                  <li>
+                    <div
+                      onClick={() => {
+                        navigate("/product-master");
+                      }}
+                      className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer"
+                    >
+                      Product Master
+                    </div>
+                  </li>
+                )}
+                <li>
+                  <div
+                    onClick={() => {
+                      handleLogout();
+                    }}
+                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer"
+                  >
+                    Logout
+                  </div>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <div
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer"
+                  >
+                    Sign In
+                  </div>
+                </li>
+                <li>
+                  <div className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer">
+                    Sign Up
+                  </div>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
