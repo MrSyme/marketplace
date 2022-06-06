@@ -8,6 +8,8 @@ const Pagination = ({
   pagesVisited,
 }) => {
   const validation = Math.ceil((products.length / productsPerPage)) - 1
+
+
   return (
     <div className="flex flex-col items-center">
       {/* <!-- Help text --> */}

@@ -2,20 +2,15 @@ import React from "react";
 import { useProducts } from "../context/ProductContext";
 
 export default function ProductManager(props) {
-    const { product } = props;
+    const { product, onModify } = props;
     const { products, setProducts} = useProducts();
 
 
     const onRemove = (evt) => {
-        let elementId = evt.target.parentElement.parentElement.firstElementChild.textContent
-        elementId = parseInt(elementId)
+        let elementId = product.id
         setProducts(products.filter((product) => product.id !== elementId));
     };
 
-    const onModify = (evt) => {
-        let elementId = evt.target.parentElement.parentElement.firstElementChild.textContent
-        console.log(elementId);
-    };
 
     
 
@@ -37,7 +32,7 @@ export default function ProductManager(props) {
             </td>
             <td className="px-6 py-4">{product.description}</td>
             <td className="px-6 py-4">
-                <button onClick={onModify} className="text-gray-900 bg-white border border-gray-300 focus:outline-none
+                <button onClick={() => onModify(product)} className="text-gray-900 bg-white border border-gray-300 focus:outline-none
                     hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2
                     dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 
                     dark:focus:ring-gray-700 modificar">

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useUser } from "../../../context/UserContext";
-import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useProducts } from "../../../context/ProductContext";
 import ProductManager from "../../../components/ProductManager";
 import Pagination from "../../../components/Pagination"
+import MainLayout from "../../../layouts/MainLayout"
 
 
 
@@ -12,11 +12,16 @@ const MaestroProductos = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const productsPerPage = 5;
   const pagesVisited = pageNumber * productsPerPage;
+  const [productForm, setProductForm] = useState({
+    id: "",
+    name: "",
+    price: "",
+    img: "",
+    description: "",
+  });
 
 
 
-  const { setUser } = useUser();
-  let navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { products, setProducts, id, setIds } = useProducts();
 
@@ -26,17 +31,14 @@ const MaestroProductos = () => {
   );
 
 
-  const handleClick = (evt) => {
-    evt.preventDefault();
-    setUser(null);
-    localStorage.removeItem("user");
-    navigate("/");
+  const onModify = (product) => {
+    setProductForm({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description
+    })
   };
-
-  const GoViewHandleClick = (evt) => {
-    evt.preventDefault();
-    navigate("/");
-  }
 
 
   function validarImg(image) {
@@ -51,6 +53,36 @@ const MaestroProductos = () => {
     return true;
   }
 
+  useEffect(() => { }, [products])
+
+
+  const updateProduct = (index, image) => {
+    let arrayProducts = products
+    let newproduct = {
+      ...products[index],
+      name: productForm.name,
+      price: productForm.price,
+      imageAlt: productForm.name,
+      description: productForm.description
+    }
+    if (image) {
+      console.log(image);
+      let fReader = new FileReader()
+      fReader.readAsDataURL(image);
+      fReader.onloadend = function (event) {
+        let image = [event.target.result];
+        newproduct = {
+          ...newproduct,
+          image: image
+        }
+      }
+    }
+    arrayProducts[index] = newproduct
+    setProducts(arrayProducts);
+    console.log(products);
+
+  }
+
   const onSubmit = (evt) => {
     evt.preventDefault();
     let fReader = new FileReader()
@@ -59,6 +91,15 @@ const MaestroProductos = () => {
     let name = evt.target.name.value;
     let price = evt.target.price.value;
     let description = evt.target.description.value;
+
+    let newProductIndex = products.findIndex((product) => product.id === productForm.id);
+    if (newProductIndex != -1) {
+      updateProduct(newProductIndex, img.files[0])
+      return
+    }
+
+
+
     if (validarImg(img)) {
       img = evt.target.img.files[0];
       fReader.readAsDataURL(img);
@@ -77,42 +118,10 @@ const MaestroProductos = () => {
         setIds(id + 1);
       }
     }
-    // navigate("/");
   }
 
   return (
-    <div>
-      <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800">
-        <div className="container flex flex-wrap justify-between items-center mx-auto">
-          <div className="flex items-center cursor-pointer">
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-              Ecommerce
-            </span>
-          </div>
-          <div
-            className="justify-between items-center w-full md:flex md:w-auto md:order-1`}"
-          >
-            <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-              <li>
-                <div
-                  onClick={GoViewHandleClick}
-                  className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-white md:p-0 dark:text-white cursor-pointer md:hover:text-blue-700">
-                  Home
-                </div>
-              </li>
-              <li>
-                <div
-                  onClick={handleClick}
-                  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer"
-                >
-                  Log out
-                </div>
-              </li>
-
-            </ul>
-          </div>
-        </div>
-      </nav>
+    <MainLayout>
 
 
       <form className="mt-8 ml-4 space-y-2" onSubmit={onSubmit}>
@@ -128,7 +137,12 @@ const MaestroProductos = () => {
             name="name"
             id="name"
             className="bg-gray-50 border border-gray-300 text-gray-900 
-                sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+          sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+            value={productForm.name}
+            onChange={(evt) => setProductForm({
+              ...productForm,
+              name: evt.target.value
+            })}
             required
           />
         </div>
@@ -146,9 +160,14 @@ const MaestroProductos = () => {
             name="price"
             id="price"
             className="bg-gray-50 border border-gray-300 
-                text-gray-900 sm:text-sm rounded-lg 
-                focus:ring-blue-500 focus:border-blue-500 p-2.5 inline mr-2"
+          text-gray-900 sm:text-sm rounded-lg 
+          focus:ring-blue-500 focus:border-blue-500 p-2.5 inline mr-2"
             placeholder="590"
+            value={productForm.price}
+            onChange={(evt) => setProductForm({
+              ...productForm,
+              price: evt.target.value
+            })}
             required
           />
         </div>
@@ -164,9 +183,9 @@ const MaestroProductos = () => {
             name="img"
             id="img"
             className="bg-gray-50 border border-gray-300 
-                text-gray-900 sm:text-sm rounded-lg 
-                focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-            required
+          text-gray-900 sm:text-sm rounded-lg 
+          focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+
           />
         </div>
         <div>
@@ -181,8 +200,13 @@ const MaestroProductos = () => {
             name="description"
             id="description"
             className="bg-gray-50 border border-gray-300 text-gray-900 
-                sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+          sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
             placeholder="Product description"
+            value={productForm.description}
+            onChange={(evt) => setProductForm({
+              ...productForm,
+              description: evt.target.value
+            })}
             required
           />
         </div>
@@ -210,7 +234,7 @@ const MaestroProductos = () => {
             </thead>
             <tbody>
               {productsToShow.map((product) => (
-                <ProductManager key={product.id} product={product}></ProductManager>
+                <ProductManager key={product.id} product={product} onModify={onModify}></ProductManager>
               ))}
 
             </tbody>
@@ -225,9 +249,7 @@ const MaestroProductos = () => {
         products={products}
         pagesVisited={pagesVisited}
       />
-
-
-    </div >
+    </MainLayout>
   );
 };
 

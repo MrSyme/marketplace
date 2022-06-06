@@ -92,7 +92,10 @@ const Header = ({ countCartItems }) => {
         >
           <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
             <li>
-              <div className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-black md:p-0 dark:text-white cursor-pointer md:hover:text-blue-700">
+              <div onClick={() => {
+                navigate("/")
+              }}
+                className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-black md:p-0 dark:text-white cursor-pointer md:hover:text-blue-700">
                 Home
               </div>
             </li>
