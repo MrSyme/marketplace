@@ -4,12 +4,12 @@ import Product from "../../components/Product";
 import { useProducts } from "../../context/ProductContext";
 import { useCart } from "../../context/CartContext";
 import MainLayout from "../../layouts/MainLayout";
-import Basket from "../../components/Basket";
+
 
 const Home = () => {
   const [pageNumber, setPageNumber] = useState(0);
 
-  const productsPerPage = 2;
+  const productsPerPage = 10;
   const pagesVisited = pageNumber * productsPerPage;
 
   const { products } = useProducts();

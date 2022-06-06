@@ -35,7 +35,9 @@ const Header = ({ countCartItems }) => {
         </div>
         <div className="flex md:order-2">
           <div className="group mr-3 md:mr-0 px-5 py-2.5 flex items-center cursor-pointer">
-            <FaShoppingCart
+            <div onClick={() => {
+                  navigate("/cart");}}>
+                <FaShoppingCart
               className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
               aria-hidden="true"
             />
@@ -43,7 +45,8 @@ const Header = ({ countCartItems }) => {
               {countCartItems}
             </span>
             <span className="sr-only">items in cart, view bag</span>
-          </div>
+          </div></div>
+            
           <button
             data-collapse-toggle="mobile-menu-4"
             type="button"
