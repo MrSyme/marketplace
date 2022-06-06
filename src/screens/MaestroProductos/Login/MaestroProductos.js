@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { useUser } from "../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useProducts } from "../../../context/ProductContext";
 import ProductManager from "../../../components/ProductManager";
+import Pagination from "../../../components/Pagination"
+
 
 
 const MaestroProductos = () => {
+  const [pageNumber, setPageNumber] = useState(0);
+  const productsPerPage = 5;
+  const pagesVisited = pageNumber * productsPerPage;
+
+
+
   const { setUser } = useUser();
   let navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { products, setProducts, id, setIds } = useProducts();
 
+  const productsToShow = products.slice(
+    pagesVisited,
+    pagesVisited + productsPerPage
+  );
 
 
   const handleClick = (evt) => {
@@ -182,7 +194,6 @@ const MaestroProductos = () => {
         </button>
 
       </form>
-
       <div>
         <h2>Products:</h2>
         <div className="px-48 relative overflow-x-auto shadow-md">
@@ -198,21 +209,25 @@ const MaestroProductos = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {productsToShow.map((product) => (
                 <ProductManager key={product.id} product={product}></ProductManager>
               ))}
 
             </tbody>
           </table>
         </div>
-
-
       </div>
 
+      <Pagination
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
+        productsPerPage={productsPerPage}
+        products={products}
+        pagesVisited={pagesVisited}
+      />
 
 
-
-    </div>
+    </div >
   );
 };
 
