@@ -46,6 +46,16 @@ const MaestroProductos = () => {
     return true;
   }
 
+  //clear inputs
+  const clearInputs = () => {
+    setProductForm({
+      id: "",
+      name: "",
+      price: "",
+      description: "",
+    });
+  }
+
   const updateProduct = (index, image) => {
     let arrayProducts = products;
     let newproduct = {
@@ -65,11 +75,12 @@ const MaestroProductos = () => {
           ...newproduct,
           image: image,
         };
+        arrayProducts[index] = newproduct;
+        setProducts(arrayProducts);
+        clearInputs();
       };
     }
-    arrayProducts[index] = newproduct;
-    setProducts(arrayProducts);
-    console.log(products);
+
   };
 
   const onSubmit = (evt) => {
@@ -88,7 +99,6 @@ const MaestroProductos = () => {
       updateProduct(newProductIndex, img.files[0]);
       return;
     }
-
     if (validarImg(img)) {
       img = evt.target.img.files[0];
       fReader.readAsDataURL(img);
@@ -107,6 +117,9 @@ const MaestroProductos = () => {
         setIds(id + 1);
       };
     }
+    
+    evt.target.img.value = "";
+    clearInputs();
   };
 
   return (
