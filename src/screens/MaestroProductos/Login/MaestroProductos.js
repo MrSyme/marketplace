@@ -77,10 +77,13 @@ const MaestroProductos = () => {
         };
         arrayProducts[index] = newproduct;
         setProducts(arrayProducts);
-        
         clearInputs();
       };
     }
+    arrayProducts[index] = newproduct;
+    setProducts(arrayProducts);
+    clearInputs();
+
 
   };
 
@@ -119,7 +122,7 @@ const MaestroProductos = () => {
         setIds(id + 1);
       };
     }
-    
+
     evt.target.img.value = "";
     clearInputs();
   };
