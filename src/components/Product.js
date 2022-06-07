@@ -1,11 +1,17 @@
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import { useSnackbar } from "notistack";
 
 export default function Product(props) {
   const { product, onAdd } = props;
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleProductAdd = (evt) => {
     evt.preventDefault();
+    enqueueSnackbar(`${product.name} added to cart`, {
+      variant: "success",
+      autoHideDuration: 3000,
+    });
     onAdd(product);
   };
   return (

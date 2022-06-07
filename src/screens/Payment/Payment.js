@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./Payment.module.css";
 import { FaCreditCard, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "notistack";
 import { useCart } from "../../context/CartContext";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -10,7 +9,6 @@ import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 
 const Payment = () => {
-  const { enqueueSnackbar } = useSnackbar();
   let navigate = useNavigate();
   const { setCartItems } = useCart();
 
