@@ -77,6 +77,7 @@ const MaestroProductos = () => {
         };
         arrayProducts[index] = newproduct;
         setProducts(arrayProducts);
+        
         clearInputs();
       };
     }
@@ -97,6 +98,7 @@ const MaestroProductos = () => {
     );
     if (newProductIndex != -1) {
       updateProduct(newProductIndex, img.files[0]);
+      evt.target.img.value = "";
       return;
     }
     if (validarImg(img)) {
