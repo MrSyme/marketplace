@@ -1,10 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { useUser } from "../context/UserContext";
 
 import { useSnackbar } from "notistack";
 
 export default function Basket(props) {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const { cartItems, setCartItems, onAdd, onRemove, deleteProduct } = props;
   const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.qty, 0);
   const { enqueueSnackbar } = useSnackbar();
@@ -121,7 +124,7 @@ export default function Basket(props) {
               </div>
               <button
                 onClick={() => {
-                  navigate("/payment");
+                  !user ? navigate("/login") : navigate("/payment");
                 }}
                 className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full"
               >

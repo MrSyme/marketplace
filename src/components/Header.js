@@ -51,7 +51,7 @@ const Header = ({ countCartItems }) => {
             <div className="group mr-3 md:mr-0 px-5 py-2.5 flex items-center cursor-pointer">
               <div
                 onClick={() => {
-                  !user ? navigate("/login") : navigate("/cart");
+                  navigate("/cart");
                 }}
               >
                 <FaShoppingCart
