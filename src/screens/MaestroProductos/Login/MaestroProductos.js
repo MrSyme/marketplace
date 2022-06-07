@@ -36,8 +36,8 @@ const MaestroProductos = () => {
 
   function validarImg(image) {
     let extension = image.value.split(".").pop().toLowerCase();
-    if (extension != "jpg" && extension != "png") {
-      enqueueSnackbar("La imagen debe ser formato .jpeg o png ", {
+    if (extension != "jpeg" && extension != "png") {
+      enqueueSnackbar("La imagen debe ser formato .jpeg o .png ", {
         variant: "error",
         autoHideDuration: 3000,
       });
