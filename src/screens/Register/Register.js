@@ -5,7 +5,7 @@ import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 
-const Login = () => {
+const Register = () => {
   let navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { setUser } = useUser();
@@ -14,28 +14,32 @@ const Login = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const role = e.target.role.value;
 
     // Buscar usuario en el local storage
     const users = JSON.parse(localStorage.getItem("users"));
     const user = users.find((user) => user.email === email);
     if (user) {
-      if (user.password === password) {
-        // Guardar usuario en el local storage
-        setUser(user);
-        localStorage.setItem("user", JSON.stringify(user));
-        // Redireccionar a la pantalla principal
-        navigate("/product-master");
-      } else {
-        enqueueSnackbar("Contraseña incorrecta", {
-          variant: "error",
-          autoHideDuration: 3000,
-        });
-      }
-    } else {
-      enqueueSnackbar("Usuario no encontrado", {
-        variant: "error",
+      enqueueSnackbar("User Already Exists", {
+        variant: "info",
         autoHideDuration: 3000,
       });
+    } else {
+      const newUser = {
+        id: users.length + 1,
+        email,
+        password,
+        role: role === "Buying" ? "comprador" : "vendedor",
+      };
+      users.push(newUser);
+      setUser(newUser);
+      localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("user", JSON.stringify(newUser));
+      enqueueSnackbar("Usuario creado con exito", {
+        variant: "success",
+        autoHideDuration: 3000,
+      });
+      navigate("/");
     }
   };
 
@@ -68,7 +72,7 @@ const Login = () => {
         </div>
         <div className="w-full p-6 sm:p-8 lg:p-16 lg:py-0 space-y-8">
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
-            Sign in
+            Sign Up
           </h2>
           <form className="mt-8 space-y-6" onSubmit={onSubmit}>
             <div>
@@ -103,21 +107,35 @@ const Login = () => {
                 required
               />
             </div>
+            <label
+              htmlFor="role"
+              className="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-400"
+            >
+              Are you buying or selling?
+            </label>
+            <select
+              id="role"
+              name="role"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option>Buying</option>
+              <option>Selling</option>
+            </select>
             <button
               type="submit"
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center"
             >
-              Login to your account
+              Register
             </button>
             <div className="text-sm font-medium text-gray-500">
-              Not registered?{" "}
+              Already have an account?
               <div
                 onClick={() => {
-                  navigate("/register");
+                  navigate("/login");
                 }}
                 className="text-blue-700 hover:underline cursor-pointer"
               >
-                Create account
+                Sign In
               </div>
             </div>
           </form>
@@ -127,4 +145,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

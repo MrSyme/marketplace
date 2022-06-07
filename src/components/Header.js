@@ -37,31 +37,34 @@ const Header = ({ countCartItems }) => {
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
         <div className="flex items-center cursor-pointer">
-          <span 
-              onClick={() => {navigate("/")}}
-              className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+          <span
+            onClick={() => {
+              navigate("/");
+            }}
+            className="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
+          >
             Ecommerce
           </span>
         </div>
         <div className="flex md:order-2">
           {((user && user.role === "comprador") || !user) && (
-              <div className="group mr-3 md:mr-0 px-5 py-2.5 flex items-center cursor-pointer">
-                <div
-                  onClick={() => {
-                    (!user) ? navigate("/login") : navigate("/cart");
-                  }}
-                >
-                  <FaShoppingCart
-                    className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
-                    aria-hidden="true"
-                  />
-                  <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                    {countCartItems}
-                  </span>
-                  <span className="sr-only">items in cart, view bag</span>
-                </div>
+            <div className="group mr-3 md:mr-0 px-5 py-2.5 flex items-center cursor-pointer">
+              <div
+                onClick={() => {
+                  !user ? navigate("/login") : navigate("/cart");
+                }}
+              >
+                <FaShoppingCart
+                  className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                  aria-hidden="true"
+                />
+                <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                  {countCartItems}
+                </span>
+                <span className="sr-only">items in cart, view bag</span>
               </div>
-            )}
+            </div>
+          )}
 
           <button
             data-collapse-toggle="mobile-menu-4"
@@ -101,8 +104,9 @@ const Header = ({ countCartItems }) => {
           </button>
         </div>
         <div
-          className={`${!open ? "hidden" : ""
-            } justify-between items-center w-full md:flex md:w-auto md:order-1`}
+          className={`${
+            !open ? "hidden" : ""
+          } justify-between items-center w-full md:flex md:w-auto md:order-1`}
           id="mobile-menu-4"
         >
           <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
@@ -154,7 +158,12 @@ const Header = ({ countCartItems }) => {
                   </div>
                 </li>
                 <li>
-                  <div className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer">
+                  <div
+                    onClick={() => {
+                      navigate("/register");
+                    }}
+                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer"
+                  >
                     Sign Up
                   </div>
                 </li>

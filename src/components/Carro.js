@@ -7,10 +7,8 @@ import Main from "./Main";
 import Basket from "./Basket";
 
 function Carro() {
-
   const { cartItems, setCartItems } = useCart();
   const { products } = useProducts();
-
 
   const onAdd = (product) => {
     const exist = cartItems.find((x) => x.id === product.id);
@@ -46,17 +44,23 @@ function Carro() {
         )
       );
     }
-  }; 
+  };
 
- 
+  const deleteProduct = (product) => {
+    setCartItems(cartItems.filter((x) => x.id !== product.id));
+  };
 
   return (
     <div className="Carro">
- 
-       <div className="rowk">
-       
-        <Basket onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} setCartItems={setCartItems}/>
-      </div> 
+      <div className="rowk">
+        <Basket
+          onAdd={onAdd}
+          onRemove={onRemove}
+          cartItems={cartItems}
+          setCartItems={setCartItems}
+          deleteProduct={deleteProduct}
+        />
+      </div>
     </div>
   );
 }
