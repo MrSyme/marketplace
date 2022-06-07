@@ -55,7 +55,7 @@ function Carro() {
  
        <div className="rowk">
        
-        <Basket onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} />
+        <Basket onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} setCartItems={setCartItems}/>
       </div> 
     </div>
   );

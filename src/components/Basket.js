@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 
 
 export default function Basket(props) {
-    const { cartItems, onAdd, onRemove } = props;
+    const { cartItems, setCartItems,onAdd, onRemove } = props;
     const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.qty, 0);
     const { enqueueSnackbar } = useSnackbar();
     let navigate = useNavigate();
@@ -40,7 +40,7 @@ export default function Basket(props) {
                         <hr />
                         <div className='rowk '>
                             <button className='buttonk' onClick={() => {
-
+                                    setCartItems([])
                                     enqueueSnackbar("Transacción exitosa", {
                                     variant: "success",
                                     autoHideDuration: 3000,
