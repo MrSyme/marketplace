@@ -14,7 +14,7 @@ root.render(
     <UserProvider>
       <ProductProvider>
         <CartProvider>
-          <SnackbarProvider>
+          <SnackbarProvider maxSnack={3}>
             <BrowserRouter>
               <App />
             </BrowserRouter>

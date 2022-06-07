@@ -9,7 +9,7 @@ export const data = {
     {
       id: 2,
       name: "Old Parr",
-      price: 500,
+      price: 100,
       image: "14777.jpg",
     },
     {
@@ -17,6 +17,36 @@ export const data = {
       name: "Ankh",
       price: 999,
       image: "14981.jpg",
+    },
+    {
+      id: 4,
+      name: "Pera",
+      price: 20,
+      image: "pera.jpg",
+    },
+    {
+      id: 5,
+      name: "Manzana",
+      price: 15,
+      image: "manzana.jpg",
+    },
+    {
+      id: 6,
+      name: "Airpods Pro",
+      price: 500,
+      image: "airpodsPro.jpg",
+    },
+    {
+      id: 6,
+      name: "Airpods Max",
+      price: 1000,
+      image: "airpodsMax.jpg",
+    },
+    {
+      id: 7,
+      name: "Moto Kawasaki Z125",
+      price: 10000,
+      image: "moto.jpg",
     },
   ],
 };

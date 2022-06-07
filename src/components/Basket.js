@@ -13,8 +13,8 @@ export default function Basket(props) {
   return (
     <div className="bg-gray-100 w-full h-screen">
       <div className="container mx-auto mt-10">
-        <div className="flex shadow-md my-10">
-          <div className="w-3/4 bg-white px-10 py-10">
+        <div className="flex flex-col md:flex-row shadow-md my-10">
+          <div className="w-full md:w-3/4 bg-white px-10 py-10">
             <div className="flex justify-between border-b pb-8">
               <h1 className="font-semibold text-2xl">Shopping Cart</h1>
               <h2 className="font-semibold text-2xl">
@@ -96,7 +96,7 @@ export default function Basket(props) {
             </div>
           </div>
 
-          <div id="summary" className="w-1/4 px-8 py-10">
+          <div id="summary" className=" w-full md:w-1/4 px-8 py-10">
             <h1 className="font-semibold text-2xl border-b pb-8">
               Order Summary
             </h1>
