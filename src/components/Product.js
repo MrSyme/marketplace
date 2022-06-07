@@ -15,7 +15,8 @@ export default function Product(props) {
     onAdd(product);
   };
   return (
-    <a key={product.id} href={product.link} className="group">
+    <div className="group cursor-pointer">
+
       <div className="w-full h-80 aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
         <img
           src={product.image}
@@ -39,6 +40,6 @@ export default function Product(props) {
           Buy now
         </button>
       </div>
-    </a>
+    </div>
   );
 }
